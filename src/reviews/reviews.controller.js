@@ -2,6 +2,9 @@ const service = require("./reviews.service.js");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const VALID_PROPERTIES = ["content", "score"];
 
+//checks if user has entered atleast content or score properties
+//to update review.
+
 function hasOnlyValidProperties(req, res, next) {
   const { data } = req?.body || {};
   const invalidFields = Object.keys(data).filter(
@@ -16,6 +19,9 @@ function hasOnlyValidProperties(req, res, next) {
   next();
 }
 
+// checks if review exists at given reviewId and
+// assigns the value to response local parameter
+
 async function reviewExists(req, res, next) {
   const { reviewId } = req.params;
 
@@ -27,9 +33,13 @@ async function reviewExists(req, res, next) {
   return next({ status: 404, message: `Review cannot be found.` });
 }
 
+// list all reviews of movie that matches given movieId
+
 async function list(req, res) {
   res.json({ data: await service.list(req.params.movieId) });
 }
+
+//takes data object and updates review at given reviewId
 
 async function update(req, res) {
   const updateReview = {
@@ -40,6 +50,8 @@ async function update(req, res) {
   data = await service.read(updateReview.review_id);
   res.json({ data });
 }
+
+//deletes review at given reviewId
 
 async function destroy(req, res) {
   const { review } = res.locals;

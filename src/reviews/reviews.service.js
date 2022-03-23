@@ -1,6 +1,8 @@
 const knex = require("../db/connection");
 const mapProperties = require("../utils/map-properties");
 
+//create helper function map critic properties to object critic
+
 const addCritic = mapProperties({
   critic: "critic.critic_id",
   preferred_name: "critic.preferred_name",

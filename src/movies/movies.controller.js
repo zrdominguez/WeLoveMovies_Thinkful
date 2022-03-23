@@ -1,6 +1,9 @@
 const service = require("./movies.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+//checks if movie with given movieId exists and assigns the value
+// to response local parameter
+
 async function movieExists(req, res, next) {
   const { movieId } = req.params;
   const movie = await service.read(movieId);
@@ -16,21 +19,10 @@ async function read(req, res) {
   res.json({ data: movie });
 }
 
-async function readTheaters(req, res) {
-  const { movie } = res.locals;
-  const theaters = await service.readTheaters(movie.movie_id);
-  res.json({ data: theaters });
-}
-
-async function readReviews(req, res) {
-  const { movie } = res.locals;
-  const reviews = await service.readReviews(movie.movie_id);
-  res.json({ data: reviews });
-}
-
+// Lists all movies unless given the query parameter
+// of is_showing where movies which are showing will be listed
 async function list(req, res) {
   const { is_showing } = req.query;
-  console.log(await service.listIsShowing());
   is_showing
     ? res.json({ data: await service.listIsShowing() })
     : res.json({ data: await service.list() });
