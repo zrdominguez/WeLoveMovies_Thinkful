@@ -1,4 +1,4 @@
-# We Love Movies API
+# We Love Movies
 
 ## General Information
 
